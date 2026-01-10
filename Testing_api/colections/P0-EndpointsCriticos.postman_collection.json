@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "65ff0fc5-0c50-4de9-bd91-3314d1b39ae6",
+		"name": "P0 - Endpoints Críticos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21007926"
+	},
+	"item": [
+		{
+			"name": "P0-1: Cálculo exitoso",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test 1: Status 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Test 2: Earnings calculation correct",
+							"pm.test(\"Earnings calculation is correct\", function () {",
+							"    const response = pm.response.json();",
+							"    const expectedEarnings = 1000000 * 0.06 * (6/12); // 6% anual, 6 meses",
+							"    pm.expect(response.data.earnings).to.equal(expectedEarnings);",
+							"});",
+							"",
+							"// Test 3: Total amount correct",
+							"pm.test(\"Total amount is correct\", function () {",
+							"    const response = pm.response.json();",
+							"    const expectedTotal = 1000000 + (1000000 * 0.06 * (6/12));",
+							"    pm.expect(response.data.totalAmount).to.equal(expectedTotal);",
+							"});",
+							"",
+							"// Test 4: Response structure",
+							"pm.test(\"Response has correct structure\", function () {",
+							"    const response = pm.response.json();",
+							"    pm.expect(response).to.have.property(\"success\", true);",
+							"    pm.expect(response).to.have.property(\"data\");",
+							"    pm.expect(response.data).to.have.property(\"earnings\");",
+							"    pm.expect(response.data).to.have.property(\"totalAmount\");",
+							"    pm.expect(response).to.have.property(\"timestamp\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": \"{{productId}}\",\n    \"amount\": 1000000,\n    \"months\": 6\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/simulator/calculate",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"simulator",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "P0-2: Campo obligatorio faltante",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test 1: Status 400",
+							"pm.test(\"Status code is 400 for missing required field\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"// Test 2: Error message indicates missing field",
+							"pm.test(\"Error message indicates missing productId\", function () {",
+							"    const response = pm.response.json();",
+							"    pm.expect(response.error.message.toLowerCase()).to.include(\"productid\");",
+							"    pm.expect(response.error.message.toLowerCase()).to.include(\"requerido\");",
+							"});",
+							"",
+							"// Test 3: Error structure",
+							"pm.test(\"Error response has correct structure\", function () {",
+							"    const response = pm.response.json();",
+							"    pm.expect(response).to.have.property(\"success\", false);",
+							"    pm.expect(response).to.have.property(\"error\");",
+							"    pm.expect(response.error).to.have.property(\"code\");",
+							"    pm.expect(response.error).to.have.property(\"message\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"amount\": 1000000,\n  \"months\": 6\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/simulator/calculate",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"simulator",
+						"calculate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "P0-3: Producto no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test 1: Status 404",
+							"pm.test(\"Status code is 404 for non-existent product\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"// Test 2: Error message indicates not found",
+							"pm.test(\"Error message indicates product not found\", function () {",
+							"    const response = pm.response.json();",
+							"    pm.expect(response.error.message.toLowerCase()).to.include(\"producto\");",
+							"    pm.expect(response.error.message.toLowerCase()).to.include(\"encontrado\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/products/cdt-182",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"products",
+						"cdt-182"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
