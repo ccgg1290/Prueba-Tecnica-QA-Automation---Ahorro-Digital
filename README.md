@@ -32,13 +32,19 @@ cd [ruta_donde_descomprimiste O ruta donde clonaste el repo]
 ```bash
 node MockServer/server.js
 ```
-Deberías ver:
+Deberías ver:  
+
 ✅ Mock server running on http://localhost:3001  
 📊 Endpoints disponibles:  
   GET  http://localhost:3001/api/v1/health  
   GET  http://localhost:3001/api/v1/products  
   GET  http://localhost:3001/api/v1/products/:id  
   POST http://localhost:3001/api/v1/simulator/calculate  
+
+  🚀 Pruebas P0 listas para ejecutar:  
+   1. Cálculo exitoso  
+   2. Campo faltante  
+   3. Producto no existe  
 
 
 ## 6. Ejecutar pruebas automatizadas (en otra terminal)
