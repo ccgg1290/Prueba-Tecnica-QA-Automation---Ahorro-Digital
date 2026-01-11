@@ -70,7 +70,9 @@ function runNewmanTests() {
         fs.mkdirSync(reportsDir, { recursive: true });
     }
     
-    const command = `newman run "${collectionPath}" -e "${envPath}" -r cli,html --reporter-html-export "${reportPath}"`;
+    //const command = `newman run "${collectionPath}" -e "${envPath}" -r cli,html --reporter-html-export "${reportPath}"`;
+	const command = `newman run "${collectionPath}" -e "${envPath}" -r htmlextra --reporter-htmlextra-export "${reportPath}" --reporter-htmlextra-title "Reporte QA - Ahorro Digital" --reporter-htmlextra-browserTitle "Pruebas API" --reporter-htmlextra-darkTheme`;
+	
     
     console.log(colors.yellow + 'Ejecutando: ' + command + colors.reset);
     console.log();

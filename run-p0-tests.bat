@@ -24,10 +24,7 @@ echo    - P0-2: Campo faltante
 echo    - P0-3: Producto no existe
 echo.
 
-newman run Testing_api\colections\P0-EndpointsCriticos.postman_collection.json ^
-  -e Testing_api\environments\P0-EndpointsCriticos.postman_environment.json ^
-  -r cli,html ^
-  --reporter-html-export Reports\p0-report.html
+newman run Testing_api\colections\P0-EndpointsCriticos.postman_collection.json -e Testing_api\environments\P0-EndpointsCriticos.postman_environment.json   -r cli,html   --reporter-html-export Reports\p0-report.html
 
 if errorlevel 1 (
     echo ❌ Algunas pruebas fallaron
